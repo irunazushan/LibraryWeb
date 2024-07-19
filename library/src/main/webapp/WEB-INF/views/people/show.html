@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Личная инфомрация</title>
+</head>
+<body>
+
+<p th:text="${person.getFullName()} + ', ' + ${person.getBirthDate()}">Person</p>
+<div th:switch="${hasBooks}">
+    <div th:case="true">
+        <hr>
+        <b>Книги:</b>
+        <div th:each="book : ${books}">
+            <p th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}">book</p>
+        </div>
+    </div>
+    <div th:case="false">
+        <p th:text="|Человек пока не взял ни одной книги|"></p>
+    </div>
+</div>
+
+<hr>
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
+    <input type="submit" value="Удалить"/>
+</form>
+<div style="color:red" th:if="${errorMessage}">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+</body>
+</html>

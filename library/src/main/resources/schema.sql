@@ -12,7 +12,8 @@ create table book (
     name varchar NOT NULL,
     author varchar NOT NULL,
     year int,
-    person_id int REFERENCES person(id)
+    person_id int REFERENCES person(id),
+    owned_time TIMESTAMP
 );
 
 /*

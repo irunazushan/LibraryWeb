@@ -12,7 +12,7 @@
         <hr>
         <b>Книги:</b>
         <div th:each="book : ${books}">
-            <p th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}">book</p>
+            <p th:style = "${book.isExpired()} ? 'color: red' : 'color: black' " th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}">book</p>
         </div>
     </div>
     <div th:case="false">

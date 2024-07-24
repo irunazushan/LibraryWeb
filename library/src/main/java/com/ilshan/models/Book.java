@@ -1,11 +1,14 @@
 package com.ilshan.models;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -34,6 +37,13 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
+
+    @Column(name = "owned_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ownedTime;
+
+    @Transient
+    private boolean isExpired;
 
     public Book() {}
 

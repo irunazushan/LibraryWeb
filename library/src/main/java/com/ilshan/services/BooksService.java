@@ -3,12 +3,12 @@ package com.ilshan.services;
 import com.ilshan.models.Book;
 import com.ilshan.models.Person;
 import com.ilshan.repositories.BooksRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +61,8 @@ public class BooksService {
     @Transactional
     public void assignBook(int book_id, Person person) {
         Book book = booksRepository.getOne(book_id);
+        book.setOwnedTime(new Date());
+        book.setExpired(false);
         book.setOwner(person);
     }
 
@@ -71,6 +73,8 @@ public class BooksService {
     @Transactional
     public void freeBook(int id) {
         Book book = booksRepository.getOne(id);
+        book.setOwnedTime(null);
+        book.setExpired(false);
         book.getOwner().getBooks().remove(book);
         book.setOwner(null);
     }

@@ -2,11 +2,12 @@ package com.ilshan.services;
 
 import com.ilshan.models.Book;
 import com.ilshan.models.Person;
+import com.ilshan.repositories.BooksRepository;
 import com.ilshan.repositories.PeopleRepository;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,9 +16,11 @@ import java.util.Optional;
 public class PeopleService {
 
     private final PeopleRepository peopleRepository;
+    private final BooksRepository booksRepository;
 
-    public PeopleService(PeopleRepository peopleRepository) {
+    public PeopleService(PeopleRepository peopleRepository, BooksRepository booksRepository) {
         this.peopleRepository = peopleRepository;
+        this.booksRepository = booksRepository;
     }
 
     public List<Person> findAll() {
@@ -49,9 +52,25 @@ public class PeopleService {
         return peopleRepository.findByFullName(fullname);
     }
 
+    @Transactional
     public List<Book> getBooks(int id) {
         Person person = peopleRepository.getOne(id);
-        Hibernate.initialize(person.getBooks());
+        List<Book> books = person.getBooks();
+        checkBooksExpiration(books);
         return person.getBooks();
+    }
+
+    public void checkBooksExpiration(List<Book> books) {
+        books.stream()
+                .filter(this::isBookExpired)
+                .forEach(book -> book.setExpired(true));
+    }
+
+    public boolean isBookExpired(Book book) {
+        Date now = new Date();
+        Date ownedTime = book.getOwnedTime();
+        int passedTimeInDays = (int) ( (now.getTime()- ownedTime.getTime())
+                / (1000 * 60 * 60 * 24 ) );
+        return passedTimeInDays >= 10;
     }
 }

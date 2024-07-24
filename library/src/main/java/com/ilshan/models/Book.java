@@ -45,7 +45,8 @@ public class Book {
     @Transient
     private boolean isExpired;
 
-    public Book() {}
+    public Book() {
+    }
 
     public Book(int id, String name, String author, int year) {
         this.id = id;

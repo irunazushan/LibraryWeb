@@ -33,7 +33,8 @@ public class Person {
     @OneToMany(mappedBy = "owner")
     private List<Book> books;
 
-    public Person() {}
+    public Person() {
+    }
 
     public Person(int id, String fullName, int birthDate) {
         this.id = id;

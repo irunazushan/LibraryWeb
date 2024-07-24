@@ -2,7 +2,6 @@ package com.ilshan.controllers;
 
 import com.ilshan.models.Book;
 import com.ilshan.models.Person;
-import com.ilshan.repositories.PeopleRepository;
 import com.ilshan.services.PeopleService;
 import com.ilshan.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class PeopleController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id,Model model) {
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", peopleService.findOne(id));
         List<Book> books = peopleService.getBooks(id);
         model.addAttribute("hasBooks", !books.isEmpty());
@@ -49,7 +48,7 @@ public class PeopleController {
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
-        if (bindingResult.hasErrors())  {
+        if (bindingResult.hasErrors()) {
             return "people/new";
         }
         peopleService.save(person);
@@ -63,9 +62,9 @@ public class PeopleController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@PathVariable("id") int id, @ModelAttribute("person")  @Valid Person person, BindingResult bindingResult) {
+    public String update(@PathVariable("id") int id, @ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
-        if (bindingResult.hasErrors())  {
+        if (bindingResult.hasErrors()) {
             return "people/new";
         }
         peopleService.update(id, person);

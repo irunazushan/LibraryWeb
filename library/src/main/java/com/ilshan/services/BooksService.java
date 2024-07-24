@@ -33,7 +33,7 @@ public class BooksService {
                     page, books_per_page, Sort.by("year"))).getContent();
         else
             books = booksRepository.findAll(PageRequest.of(
-                page, books_per_page)).getContent();
+                    page, books_per_page)).getContent();
         return books;
     }
 
@@ -48,9 +48,12 @@ public class BooksService {
     }
 
     @Transactional
-    public void update(int id, Book updatedPBook) {
-        updatedPBook.setId(id);
-        booksRepository.save(updatedPBook);
+    public void update(int id, Book updatedBook) {
+        Book bookToBeUpdated = booksRepository.findById(id).get();
+        updatedBook.setId(id);
+        updatedBook.setOwner(bookToBeUpdated.getOwner());
+        updatedBook.setOwnedTime(bookToBeUpdated.getOwnedTime());
+        booksRepository.save(updatedBook);
     }
 
     @Transactional

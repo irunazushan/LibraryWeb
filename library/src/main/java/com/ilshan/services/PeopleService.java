@@ -57,7 +57,7 @@ public class PeopleService {
         Person person = peopleRepository.getOne(id);
         List<Book> books = person.getBooks();
         checkBooksExpiration(books);
-        return person.getBooks();
+        return books;
     }
 
     public void checkBooksExpiration(List<Book> books) {
@@ -69,8 +69,8 @@ public class PeopleService {
     public boolean isBookExpired(Book book) {
         Date now = new Date();
         Date ownedTime = book.getOwnedTime();
-        int passedTimeInDays = (int) ( (now.getTime()- ownedTime.getTime())
-                / (1000 * 60 * 60 * 24 ) );
+        int passedTimeInDays = (int) ((now.getTime() - ownedTime.getTime())
+                / (1000 * 60 * 60 * 24));
         return passedTimeInDays >= 10;
     }
 }

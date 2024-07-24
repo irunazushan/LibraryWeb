@@ -43,7 +43,7 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id,Model model) {
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", booksService.findOne(id));
         model.addAttribute("person", new Person());
         model.addAttribute("people", peopleService.findAll());
@@ -118,13 +118,6 @@ public class BooksController {
         return "redirect:/books/{id}";
     }
 
-//    @GetMapping("/search")
-//    public String searchPage (
-//            @RequestParam Optional<String> nameForSearch,
-//            Model model) {
-//        return "books/search";
-//    }
-
     @GetMapping("/search")
     public String searchPage(@RequestParam Optional<String> nameForSearch, Model model) {
         model.addAttribute("nameForSearch", nameForSearch.orElse(""));
@@ -136,14 +129,4 @@ public class BooksController {
         }
         return "books/search";
     }
-
-//    @PostMapping("/search")
-//        public String searchRun (@RequestParam String nameForSearch,
-//                                 Model model) {
-//        List<Book> books = booksService.findBooksWithName(nameForSearch);
-//        model.addAttribute("nameForSearch", nameForSearch);
-//        model.addAttribute("books", books);
-//        return "books/search";
-//    }
-
 }

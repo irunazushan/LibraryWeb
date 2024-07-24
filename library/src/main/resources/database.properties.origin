@@ -2,3 +2,5 @@ db.url=
 db.user=
 db.password=
 db.driver.name=
+hibernate.dialect=
+hibernate.show_sql=

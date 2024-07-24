@@ -1,8 +1,9 @@
 package com.ilshan.controllers;
 
-import com.ilshan.dao.PersonDAO;
 import com.ilshan.models.Book;
 import com.ilshan.models.Person;
+import com.ilshan.repositories.PeopleRepository;
+import com.ilshan.services.PeopleService;
 import com.ilshan.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,25 +17,25 @@ import java.util.List;
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, PersonValidator personValidator) {
-        this.personDAO = personDAO;
+    public PeopleController(PeopleService peopleService, PersonValidator personValidator) {
+        this.peopleService = peopleService;
         this.personValidator = personValidator;
     }
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("people", personDAO.index());
+        model.addAttribute("people", peopleService.findAll());
         return "people/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id,Model model) {
-        model.addAttribute("person", personDAO.show(id));
-        List<Book> books = personDAO.giveBooks(id);
+        model.addAttribute("person", peopleService.findOne(id));
+        List<Book> books = peopleService.getBooks(id);
         model.addAttribute("hasBooks", !books.isEmpty());
         model.addAttribute("books", books);
         return "people/show";
@@ -51,13 +52,13 @@ public class PeopleController {
         if (bindingResult.hasErrors())  {
             return "people/new";
         }
-        personDAO.save(person);
+        peopleService.save(person);
         return "redirect:/people";
     }
 
     @GetMapping("/{id}/edit")
     public String editPage(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.show(id));
+        model.addAttribute("person", peopleService.findOne(id));
         return "people/edit";
     }
 
@@ -67,22 +68,22 @@ public class PeopleController {
         if (bindingResult.hasErrors())  {
             return "people/new";
         }
-        personDAO.update(id, person);
+        peopleService.update(id, person);
         return "redirect:/people";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id, Model model) {
-        Person person = personDAO.show(id);
-        if (!personDAO.giveBooks(person.getId()).isEmpty()) {
+        Person person = peopleService.findOne(id);
+        if (!peopleService.getBooks(person.getId()).isEmpty()) {
             model.addAttribute("errorMessage", "Пользователь не может быть удален пока имеются невозвращенные книги");
             model.addAttribute("person", person);
-            List<Book> books = personDAO.giveBooks(id);
+            List<Book> books = peopleService.getBooks(id);
             model.addAttribute("hasBooks", !books.isEmpty());
             model.addAttribute("books", books);
             return "people/show";
         }
-        personDAO.delete(id);
+        peopleService.delete(id);
         return "redirect:/people";
     }
 }

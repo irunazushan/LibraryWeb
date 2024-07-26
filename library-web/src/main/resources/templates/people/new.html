@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый аккаунт</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/people}" th:object="${person}">
+
+    <label for="fullname">Введите ФИО:</label>
+    <input type="text" th:field="*{fullName}" id="fullname"/>
+    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">FIO error</div>
+    <br/>
+    <label for="birth_date">Введите год рождения:</label>
+    <input type="text" th:field="*{birthDate}" id="birth_date"/>
+    <div style="color:red" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">birth error</div>
+    <br>
+
+    <input type="submit" value="Создать!">
+</form>
+
+</body>
+</html>

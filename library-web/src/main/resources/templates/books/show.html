@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о книге</title>
+</head>
+<body>
+
+<p th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.getYear()}">book</p>
+
+<div th:switch="${bookIsFree}">
+    <div th:case="true">
+        <div th:text="|Эта книга свободна. Кому назначить ее?|">free</div>
+        <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}">
+            <label for="person">Выберите человека</label>
+            <select th:object="${person}" th:field="*{id}" id="person">
+                <option th:each="person : ${people}"
+                        th:value="${person.getId()}" th:text="${person.getFullName()}" ></option>
+            </select>
+
+            <input type="submit" value="Назначить книгу">
+        </form>
+    </div>
+    <div th:case="false">
+        <p th:text="|Книга сейчас у: ${assignedPerson.getFullName()}|">free</p>
+        <form th:method="DELETE" th:action="@{/books/{id}/make_free(id=${book.getId()})}">
+            <input type="submit" value="Освободить книгу"/>
+        </form>
+    </div>
+</div>
+
+<hr>
+<form th:method="GET" th:action="@{/books/{id}/edit(id=${book.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+    <input type="submit" value="Удалить"/>
+</form>
+<div style="color:red" th:if="${errorMessage}">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+</body>
+</html>

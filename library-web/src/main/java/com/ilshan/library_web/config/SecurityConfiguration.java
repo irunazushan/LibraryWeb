@@ -18,11 +18,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf
-                        .disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login", "/registration").permitAll()
-                        .requestMatchers("/people/**", "/books/*/**").hasRole("ADMIN")
+                        .requestMatchers("/people/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -30,7 +28,7 @@ public class SecurityConfiguration {
                         .deleteCookies("JSESSIONID"))
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/people"))
+                        .defaultSuccessUrl("/books"))
                 .build();
     }
 

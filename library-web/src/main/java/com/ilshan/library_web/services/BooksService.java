@@ -63,19 +63,19 @@ public class BooksService {
 
     @Transactional
     public void assignBook(int book_id, Person person) {
-        Book book = booksRepository.getOne(book_id);
+        Book book = booksRepository.getReferenceById(book_id);
         book.setOwnedTime(new Date());
         book.setExpired(false);
         book.setOwner(person);
     }
 
     public boolean isFree(int id) {
-        return booksRepository.getOne(id).getOwner() == null;
+        return booksRepository.getReferenceById(id).getOwner() == null;
     }
 
     @Transactional
     public void freeBook(int id) {
-        Book book = booksRepository.getOne(id);
+        Book book = booksRepository.getReferenceById(id);
         book.setOwnedTime(null);
         book.setExpired(false);
         book.getOwner().getBooks().remove(book);

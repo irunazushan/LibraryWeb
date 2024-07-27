@@ -6,6 +6,7 @@ import com.ilshan.library_web.services.BooksService;
 import com.ilshan.library_web.services.PeopleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +44,7 @@ public class BooksController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", booksService.findOne(id));
         model.addAttribute("person", new Person());
@@ -56,6 +58,7 @@ public class BooksController {
     }
 
     @GetMapping("/new")
+    @PreAuthorize("hasRole('ADMIN')")
     public String newBook(@ModelAttribute("book") Book book) {
         return "books/new";
     }
@@ -70,6 +73,7 @@ public class BooksController {
     }
 
     @GetMapping("/{id}/edit")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editPage(@PathVariable("id") int id, Model model) {
         model.addAttribute("book", booksService.findOne(id));
         return "books/edit";
@@ -92,6 +96,7 @@ public class BooksController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(@PathVariable("id") int id, Model model) {
 
         Book book = booksService.findOne(id);
@@ -113,6 +118,7 @@ public class BooksController {
     }
 
     @DeleteMapping("/{id}/make_free")
+    @PreAuthorize("hasRole('ADMIN')")
     public String assign(@PathVariable("id") int id) {
         booksService.freeBook(id);
         return "redirect:/books/{id}";

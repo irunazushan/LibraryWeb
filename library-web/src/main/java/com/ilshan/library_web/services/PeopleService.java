@@ -54,7 +54,7 @@ public class PeopleService {
 
     @Transactional
     public List<Book> getBooks(int id) {
-        Person person = peopleRepository.getOne(id);
+        Person person = peopleRepository.getReferenceById(id);
         List<Book> books = person.getBooks();
         checkBooksExpiration(books);
         return books;

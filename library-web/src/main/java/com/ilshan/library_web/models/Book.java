@@ -1,5 +1,6 @@
 package com.ilshan.library_web.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -32,6 +33,7 @@ public class Book {
     @Range(min = 1800, max = 2024, message = "Год написания книги должен быть в пределе от 1800 до 2024 года")
     private int year;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;

@@ -1,5 +1,6 @@
 package com.ilshan.library_web.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -30,7 +31,8 @@ public class Person {
     @Range(min = 1900, max = 2024, message = "Год рождения должен быть в пределе от 1900 до 2024 года")
     private int birthDate;
 
-    @OneToMany(mappedBy = "owner")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     private List<Book> books;
 
     public Person() {

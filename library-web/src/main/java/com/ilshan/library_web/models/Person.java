@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,8 +30,21 @@ public class Person {
     private String fullName;
 
     @Column(name = "birth_date")
+//    @NotEmpty(message = "Год рождения не может быть пустым")
     @Range(min = 1900, max = 2024, message = "Год рождения должен быть в пределе от 1900 до 2024 года")
     private int birthDate;
+
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date cretedAt;
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
+    @Column(name = "created_by")
+    @Size(max = 100)
+    private String createdBy;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "owner", cascade = CascadeType.DETACH, fetch = FetchType.LAZY)

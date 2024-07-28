@@ -6,10 +6,6 @@ import com.ilshan.library_web.services.PeopleService;
 import com.ilshan.library_web.util.PersonValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.annotation.CurrentSecurityContext;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,9 +33,7 @@ public class PeopleController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id,
-                       Model model,
-                       @CurrentSecurityContext SecurityContext securityContext,
-                       @AuthenticationPrincipal UserDetails user) {
+                       Model model) {
         model.addAttribute("person", peopleService.findOne(id));
         List<Book> books = peopleService.getBooks(id);
         model.addAttribute("hasBooks", !books.isEmpty());

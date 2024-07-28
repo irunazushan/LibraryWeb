@@ -4,6 +4,7 @@ import com.ilshan.library_web.models.Book;
 import com.ilshan.library_web.models.Person;
 import com.ilshan.library_web.repositories.BooksRepository;
 import com.ilshan.library_web.repositories.PeopleRepository;
+import com.ilshan.library_web.util.PersonNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,17 +30,19 @@ public class PeopleService {
 
     public Person findOne(int id) {
         Optional<Person> foundPerson = peopleRepository.findById(id);
-        return foundPerson.orElse(null);
+        return foundPerson.orElseThrow(PersonNotFoundException::new);
     }
 
     @Transactional
     public void save(Person person) {
+        person.setCretedAt(new Date());
         peopleRepository.save(person);
     }
 
     @Transactional
     public void update(int id, Person updatedPerson) {
         updatedPerson.setId(id);
+        updatedPerson.setUpdatedAt(new Date());
         peopleRepository.save(updatedPerson);
     }
 

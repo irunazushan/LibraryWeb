@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,12 +25,16 @@ public class User {
 
     @Column(name = "email")
     @Email
+    @NotEmpty(message = "Логин не может быть пустым")
+    @Size(max = 100, message = "Логин должен иметь менее 100 символов")
     private String email;
 
+    @NotEmpty(message = "Пароль не может быть пустым")
     @Column(name = "password")
     private String password;
 
     @Column(name = "authority")
+    @NotEmpty(message = "Роль должна быть определена")
     @Enumerated(value = EnumType.STRING)
     private Role role;
 

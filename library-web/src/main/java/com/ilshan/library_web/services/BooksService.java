@@ -3,6 +3,7 @@ package com.ilshan.library_web.services;
 import com.ilshan.library_web.models.Book;
 import com.ilshan.library_web.models.Person;
 import com.ilshan.library_web.repositories.BooksRepository;
+import com.ilshan.library_web.util.BookNotFoundException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class BooksService {
 
     public Book findOne(int id) {
         Optional<Book> foundBook = booksRepository.findById(id);
-        return foundBook.orElse(null);
+        return foundBook.orElseThrow(BookNotFoundException::new);
     }
 
     @Transactional

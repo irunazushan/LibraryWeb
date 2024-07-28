@@ -41,14 +41,20 @@ public class PeopleService {
 
     @Transactional
     public void update(int id, Person updatedPerson) {
+        Optional<Person> foundPerson = peopleRepository.findById(id);
+        Person person = foundPerson.orElseThrow(PersonNotFoundException::new);
         updatedPerson.setId(id);
+        updatedPerson.setCreatedBy(person.getCreatedBy());
+        updatedPerson.setCretedAt(person.getCretedAt());
         updatedPerson.setUpdatedAt(new Date());
         peopleRepository.save(updatedPerson);
     }
 
     @Transactional
     public void delete(int id) {
-        peopleRepository.deleteById(id);
+        Optional<Person> foundPerson = peopleRepository.findById(id);
+        Person person = foundPerson.orElseThrow(PersonNotFoundException::new);
+        peopleRepository.delete(person);
     }
 
     public Optional<Person> findByFullName(String fullname) {

@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Table(schema = "library_web", name = "t_users")
+@Table(schema = "library_web", name = "t_user")
 public class User {
 
     @Id
@@ -34,7 +34,6 @@ public class User {
     private String password;
 
     @Column(name = "c_authority")
-    @NotEmpty(message = "Роль должна быть определена")
     @Enumerated(value = EnumType.STRING)
     private Role role;
 

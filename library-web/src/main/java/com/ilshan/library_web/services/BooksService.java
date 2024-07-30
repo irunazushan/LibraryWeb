@@ -29,6 +29,7 @@ public class BooksService {
 
     public List<Book> findPage(int page, int books_per_page, boolean sort_by_year) {
         List<Book> books;
+        books_per_page = books_per_page > 0 ? books_per_page : 1;
         if (sort_by_year)
             books = booksRepository.findAll(PageRequest.of(
                     page, books_per_page, Sort.by("year"))).getContent();

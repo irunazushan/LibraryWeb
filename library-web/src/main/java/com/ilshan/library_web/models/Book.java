@@ -13,32 +13,32 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "book")
+@Table(schema = "library_web", name = "t_book")
 public class Book {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "c_name")
     @NotEmpty(message = "Название книги не может быть пустым")
     private String name;
 
-    @Column(name = "author")
+    @Column(name = "c_author")
     @NotEmpty(message = "Имя автора не может быть пустым")
     private String author;
 
-    @Column(name = "year")
+    @Column(name = "c_year")
     @Range(min = 1800, max = 2024, message = "Год написания книги должен быть в пределе от 1800 до 2024 года")
     private int year;
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    @JoinColumn(name = "c_person_id", referencedColumnName = "id")
     private Person owner;
 
-    @Column(name = "owned_time")
+    @Column(name = "c_owned_time")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ownedTime;
 

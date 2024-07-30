@@ -16,33 +16,33 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "person")
+@Table(schema = "library_web", name = "t_person")
 public class Person {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column(name = "fullname")
+    @Column(name = "c_fullname")
     @NotEmpty(message = "ФИО не может быть пустым")
     @Pattern(regexp = "[А-Я][а-я]+ [А-Я][а-я]+ [А-Я][а-я]+", message = "ФИО должно быть написано в следующем формате: Иванов Иван Иванович")
     private String fullName;
 
-    @Column(name = "birth_date")
+    @Column(name = "c_birth_date")
 //    @NotEmpty(message = "Год рождения не может быть пустым")
     @Range(min = 1900, max = 2024, message = "Год рождения должен быть в пределе от 1900 до 2024 года")
     private int birthDate;
 
-    @Column(name = "created_at")
+    @Column(name = "c_created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date cretedAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "c_updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    @Column(name = "created_by")
+    @Column(name = "c_created_by")
     @Size(max = 100)
     private String createdBy;
 

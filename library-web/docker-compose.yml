@@ -1,0 +1,18 @@
+version: '3.1'
+
+volumes:
+  pg_library:
+
+services:
+  library_web:
+    image: postgres:16
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=library_web
+    volumes:
+      - pg_library:/var/lib/postgresql/data
+
+    ports:
+      - "127.0.0.1:5432:5432"

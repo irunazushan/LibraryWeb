@@ -85,14 +85,14 @@ public class PersonRestController {
         }
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(PersonNotFoundException.class)
     private ResponseEntity<ErrorResponse> handleException(PersonNotFoundException e) {
         ErrorResponse response = new ErrorResponse(
                 "Человек с таким id не найден", System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(PersonNotCreatedException.class)
     private ResponseEntity<ErrorResponse> handleException(PersonNotCreatedException e) {
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(), System.currentTimeMillis());

@@ -67,14 +67,14 @@ public class BookRestController {
         booksService.delete(id);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(BookNotFoundException.class)
     private ResponseEntity<ErrorResponse> handleException(BookNotFoundException e) {
         ErrorResponse response = new ErrorResponse(
                 "Книга с таким id не найдена", System.currentTimeMillis());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(BookNotCreatedException.class)
     private ResponseEntity<ErrorResponse> handleException(BookNotCreatedException e) {
         ErrorResponse response = new ErrorResponse(
                 e.getMessage(), System.currentTimeMillis());

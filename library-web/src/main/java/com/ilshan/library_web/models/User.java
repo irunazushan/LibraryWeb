@@ -15,25 +15,25 @@ import java.util.Objects;
 
 @Data
 @Entity
-@Table(name = "users")
+@Table(schema = "library_web", name = "t_users")
 public class User {
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column(name = "email")
+    @Column(name = "c_email")
     @Email
     @NotEmpty(message = "Логин не может быть пустым")
     @Size(max = 100, message = "Логин должен иметь менее 100 символов")
     private String email;
 
+    @Column(name = "c_password")
     @NotEmpty(message = "Пароль не может быть пустым")
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "authority")
+    @Column(name = "c_authority")
     @NotEmpty(message = "Роль должна быть определена")
     @Enumerated(value = EnumType.STRING)
     private Role role;

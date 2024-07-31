@@ -13,6 +13,16 @@ services:
       - POSTGRES_DB=library_web
     volumes:
       - pg_library:/var/lib/postgresql/data
-
     ports:
-      - "5434:5432"
+      - "127.0.0.1:5434:5432"
+
+  app:
+    restart: always
+    build: .
+    depends_on:
+      - library_web
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:postgresql://library_web:5432/library_web'
+      JAVA_OPTS: '-Xmx512m'
+    ports:
+      - "8888:8081"

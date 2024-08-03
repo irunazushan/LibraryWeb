@@ -44,3 +44,19 @@ LibraryWeb — это веб-приложение для управления б
    git clone https://github.com/irunazushan/LibraryWeb
    cd library-web
    docker compose up
+
+## Доступ к приложению
+
+После запуска приложения вы можете получить доступ к нему по следующему адресу:
+
+- **Основной URL для регистраци**: [http://localhost:8888/registration](http://localhost:8888/registration)
+- **Основной URL для входа**: [http://localhost:8888/login](http://localhost:8888/login)
+- **URL для просмотра всех читателей**: [http://localhost:8888/people](http://localhost:8888/people)
+- **URL для просмотра всех книг**: [http://localhost:8888/books](http://localhost:8888/books)
+
+### Конечные точки API
+
+- **Получить список книг**: `GET /api/books`
+- **Добавить новую книгу**: `POST /api/books`
+- **Получить список читателей**: `GET /api/people`
+- **Добавить нового читателя**: `POST /api/people`
